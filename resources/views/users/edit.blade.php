@@ -1,12 +1,9 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
-<h2>Edit <span class='muted'>Users</span></h2>
+<div class="col-sm-12">
+<h2>Chỉnh sửa <span class='muted'>tài khoản</span></h2>
 <hr>
 @include('users._form', ['users' => $users, 'action'=> 'update'])
-<p>
-	<a href="{{url('users/show/'.$users->user_id)}}"> View</a> |
-	<a href="{{url('users')}}">Back</a>
-</p>
+
 </div>
 @endsection

@@ -47,26 +47,20 @@ class CommentsController extends Controller {
 	public function store(Request $request)
 	{
 	     $this->validate($request, [
-
-            'comm_post' => 'required|numeric',
-            'comm_created_at' => 'required|date',
+            'comm_post' => 'required',
             'comm_email' => 'required|max:256',
             'comm_name' => 'required|max:256',
-            'comm_content' => 'required|max:256',
-
+            'comm_content' => 'required|min:15|max:256',
 		 ]);
-		 
 		$comments = new Comments();
-
 		$comments->comm_post = $request->input('comm_post');
-		$comments->comm_created_at = $request->input('comm_created_at');
+		$comments->comm_created_at = date('Y-m-d H:i:s');
 		$comments->comm_email = $request->input('comm_email');
 		$comments->comm_name = $request->input('comm_name');
 		$comments->comm_content = $request->input('comm_content');
-
 		$comments->save();
 
-		return redirect()->route('comments.index')->with('message', 'Item created successfully.');
+		return redirect('home/posts/show/'.$request->input('comm_post'))->with('message', 'Đã gửi bình luận thành công');
 	}
 
 	/**
@@ -111,13 +105,7 @@ class CommentsController extends Controller {
 	public function update(Request $request, $comm_id)
 	{
 		$comments = Comments::findOrFail($comm_id);
-
-		$comments->comm_post = $request->input('comm_post');
-		$comments->comm_created_at = $request->input('comm_created_at');
-		$comments->comm_email = $request->input('comm_email');
-		$comments->comm_name = $request->input('comm_name');
-		$comments->comm_content = $request->input('comm_content');
-
+        $comments->comm_status = '1';
 		$comments->save();
 
 		return redirect()->route('comments.index')->with('message', 'Item updated successfully.');

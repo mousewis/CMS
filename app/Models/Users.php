@@ -9,9 +9,9 @@ class Users extends Model {
     protected $table = 'users';
 	
     public $timestamps = false;
-	
+	protected $primaryKey='user_id';
 	protected $fillable = ['user_id','user_password', 'user_email', 'user_name', 'user_role', 'user_created_at', 'user_updated_at'];
-
+    public $incrementing = false;
     public static function login($user_id, $user_password)
     {
         $result = \DB::table('users')->where([['user_id','=',$user_id],['user_password','=',md5($user_password)]])->first();

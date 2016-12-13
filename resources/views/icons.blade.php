@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.app')
 @section('page_heading','Icons')
 @section('section')
 	<div class="col-sm-12">

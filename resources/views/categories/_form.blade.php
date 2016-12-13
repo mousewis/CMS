@@ -11,11 +11,11 @@
   $method = $action == 'update' ? '<input type="hidden" name="_method" value="PUT">' : '';
   $action = $action == 'update' ? $action.'/'.$categories->cate_id : $action; 
 ?>
-<form action="<?= url('categories/'.$action) ?>" method="POST" class="form-horizontal">
+<form action="<?= url(((session('user_id')&&(session('user_role')=='admin'))?'admin/':'').'categories/'.$action) ?>" method="POST" class="form-horizontal">
 <?= $method ?>
 	<fieldset>
-    		<div class="form-group"><label class="control-label">Cate Name</label>
-		<input type="text" name="cate_name" value ="<?= isset($categories) ? $categories->cate_name : ''?>" required ='required' class="col-md-4 form-control" placeholder="Cate Name"></div>
+    		<div class="form-group"><label class="control-label">Tên chuyên mục</label>
+		<input type="text" name="cate_name" value ="<?= isset($categories) ? $categories->cate_name : ''?>" required ='required' class="col-md-4 form-control" placeholder="Tên chuyên mục"></div>
 
 		<div class="form-group">
 			<label class="control-label">&nbsp;</label>

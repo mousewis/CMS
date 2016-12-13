@@ -2253,7 +2253,7 @@ caption {
   text-align: left;
 }
 th {
-  text-align: left;
+  text-align: center;
 }
 .table {
   width: 100%;
@@ -6934,6 +6934,10 @@ button.close {
 }
 .fa-video-camera:before {
   content: "\f03d";
+}
+.fa-avatar{
+  width:5%;
+  height:5%;
 }
 .fa-photo:before,
 .fa-image:before,

@@ -8,7 +8,9 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use App\Options;
 use App\Users;
+use App\Posts;
 use Illuminate\Database\Schema\Blueprint;
+use League\Flysystem\Exception;
 
 class AdminController extends Controller {
 
@@ -25,10 +27,83 @@ class AdminController extends Controller {
             return redirect('setup');
         if (\Session::has('user_id')&&\Session::has('user_role')&&\Session::get('user_role')=='admin')
         {
-            $comm_noti = Comments::noti();
-            return view('admin.home')->with(['comm_noti'=>$comm_noti]);
+            $comm_noti = Comments::top(5);
+            $comment = Comments::top(5);
+            $post = Posts::top(5);
+            $comm_total = Comments::count();
+            $post_total = Posts::count();
+            $view_total = Posts::view_count();
+            return view('admin.home')->with(['comm_noti'=>$comm_noti,'comment'=>$comment,'post'=>$post,
+            'comm_total'=>$comm_total,'post_total'=>$post_total,'view_total'=>$view_total]);
         }
         return redirect('admin/login');
+    }
+    public function comment()
+    {
+        if (\Session::has('user_id')&&\Session::has('user_role')&&\Session::get('user_role')=='admin')
+        {
+            return json_encode(Comments::top(5));
+        }
+    }
+    public function posts()
+    {
+        if (\Session::has('user_id')&&\Session::has('user_role')&&\Session::get('user_role')=='admin')
+        {
+            return Posts::top(5);
+        }
+    }
+    public function options()
+    {
+        if (\Session::has('user_id')&&\Session::has('user_role')&&\Session::get('user_role')=='admin')
+        {
+            $opt_blog_name = Options::name();
+            $opt_blog_intro = Options::intro();
+            $opt_blog_logo = Options::logo();
+            $opt_blog_avatar = Options::avatar();
+            return view('admin.options')->with(['opt_blog_name'=>$opt_blog_name,
+            'opt_blog_intro'=>$opt_blog_intro,
+            'opt_blog_avatar'=>$opt_blog_avatar,
+            'opt_blog_logo'=>$opt_blog_logo]);
+        }
+        return redirect('/');
+    }
+    public function _options(Request $request)
+    {
+        if (\Session::has('user_id')&&\Session::has('user_role')&&\Session::get('user_role')=='admin')
+        {
+            //try{
+            $this->validate($request, [
+                'opt_blog_name'=>'required|max:256',
+                'opt_blog_intro'=>'required|max:256',
+            ]);
+                //$opt_blog_logo = null;
+                //$opt_blog_avatar =null;
+            if ($request->hasFile('opt_blog_logo')&&$request->file('opt_blog_logo')->isValid())
+            {
+                $extension = $request->file('opt_blog_logo')->extension();
+                $name = 'logo'.date('Ymdhis').'.'.$extension;
+                $request->file('opt_blog_logo')->storeAs('images',$name);
+                $opt_blog_logo = $name;
+            }
+                if ($request->hasFile('opt_blog_avatar')&&$request->file('opt_blog_avatar')->isValid())
+                {
+                    $extension = $request->file('opt_blog_avatar')->extension();
+                    $name = 'avatar'.date('Ymdhis').'.'.$extension;
+                    $request->file('opt_blog_avatar')->storeAs('images',$name);
+                    $opt_blog_avatar = $name;
+                }
+            Options::edit($request->input('opt_blog_name'),
+                $request->input('opt_blog_intro'),
+                $opt_blog_logo,
+                $opt_blog_avatar);
+            return redirect('admin/options')->with('message','Đã chỉnh sửa thành công');
+            }
+            /*catch (Exception $e)
+            {
+                return redirect('admin/options')->with('error-message','Lỗi trong quá trình lưu');
+            }
+            }*/
+        return redirect('/');
     }
 	public function setup()
     {
@@ -63,6 +138,7 @@ class AdminController extends Controller {
             $users->user_updated_at = date('Y-m-d H:i:s');
             $users->save();
             \DB::table('options')->delete();
+
             //Tên website
             $options1 = new Options();
             $options1->opt_name = 'opt_blog_name';
@@ -73,6 +149,16 @@ class AdminController extends Controller {
             $options1 = new Options();
             $options1->opt_name = 'opt_blog_intro';
             $options1->opt_detail = $request->input('opt_blog_intro');
+            $options1->opt_updated_at = date('Y-m-d H:i:s');
+            $options1->save();
+            $options1 = new Options();
+            $options1->opt_name = 'opt_blog_avatar';
+            $options1->opt_detail = 'avatar.png';
+            $options1->opt_updated_at = date('Y-m-d H:i:s');
+            $options1->save();
+            $options1 = new Options();
+            $options1->opt_name = 'opt_blog_logo';
+            $options1->opt_detail = 'logo-1.png';
             $options1->opt_updated_at = date('Y-m-d H:i:s');
             $options1->save();
             return redirect('admin/login')->with('message','Khởi tạo thành công, vui lòng đăng nhập!');

@@ -1,63 +1,30 @@
-@extends('layouts.app')
+@extends('layouts.blog')
 @section('content')
-<div class="container">
-<h2>Listing <span class='muted'>Posts</span></h2>
-<a href="<?=url('posts/create')?>" class = "btn btn-success btn-sm"><i class="glyphicon glyphicon-plus"></i> Create posts</a>
-<hr>
-@if (session('message'))
-    <div class="alert alert-success">
-        {{ session('message') }}
+    <div class="col-md-8 about-left">
+        <div class="about-tre">
+            <?php if (isset($posts)):?>
+            <?php $count = 1 ?>
+            <?php foreach ($posts as $item): ?>
+            <?php if($count % 2 != 0):?>
+            <?php endif; ?>
+                <div class="col-md-6 abt-left">
+                    <a href="<?= url('home/posts/show/' . $item->post_id) ?>">
+                        <img src="<?= url('images/' . $item->post_image) ?>" alt="" style="width: 100%;height: 200px"/></a>
+                    <h6><?= $item->cate_name?></h6>
+                    <h3><a href="single.html"><?= $item->post_title ?></a></h3>
+                    <p><?= substr(strip_tags(str_replace('<', ' <', $item->post_content)), 0, 160)?></p>
+                    <label><?= $item->post_created_at?></label>
+                </div>
+                <?php if($count % 2 == 0):?>
+                <div class="clearfix"></div>
+
+            <?php endif; ?>
+            <?php $count += 1 ?>
+            <?php endforeach; ?>
+            {{$posts->appends(Request::input())->links()}}
+            <?php endif; ?>
+
+        </div>
     </div>
-@endif
-<?php if (isset($posts)): ?>
-
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th>Post Title</th>
-			<th>Post Image</th>
-			<th>Post Content</th>
-			<th>Post Tags</th>
-			<th>Post Status</th>
-			<th>Post Created At</th>
-			<th>Post Updated At</th>
-			<th>Post Category</th>
-			<th>Post Author</th>
-			<th width="20%">&nbsp;</th>
-		</tr>
-	</thead>
-	<tbody>
-<?php foreach ($posts as $item): ?>
-		<tr>
-			<td><?= $item->post_title ?></td>
-			<td><?= $item->post_image ?></td>
-			<td><?= $item->post_content ?></td>
-			<td><?= $item->post_tags ?></td>
-			<td><?= $item->post_status ?></td>
-			<td><?= $item->post_created_at ?></td>
-			<td><?= $item->post_updated_at ?></td>
-			<td><?= $item->post_category ?></td>
-			<td><?= $item->post_author ?></td>
-			<td>
-				<div class="btn-toolbar">
-					<div class="btn-group">
-						<a href="<?=url('posts/show/'.$item->post_id)?>" class = "btn btn-info btn-sm"><i class="glyphicon glyphicon-eye-open"></i> View</a>
-						<a href="<?=url('posts/edit/'.$item->post_id)?>" class = "btn btn-warning btn-sm"><i class="glyphicon glyphicon-pencil"></i> Edit</a>
-						<a href="<?=url('posts/delete/'.$item->post_id)?>" class = "btn btn-danger btn-sm" onclick = "return confirm('Are you sure?')"><i class="glyphicon glyphicon-trash"></i> Delete</a>
-					</div>
-				</div>
-
-			</td>
-		</tr>
-<?php endforeach; ?>
-	</tbody>
-</table>
-
-<?php else: ?>
-
-<p>No posts . </p>
-
-<?php endif; ?>
-
-</div>
+    @include('layouts.blog-panel')
 @endsection

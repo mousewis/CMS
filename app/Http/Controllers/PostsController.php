@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Categories;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Posts;
-
 
 class PostsController extends Controller {
 
@@ -19,11 +19,29 @@ class PostsController extends Controller {
 	 */
 	public function index()
 	{
-		$posts = Posts::all();
-
-		return view('posts.index', compact('posts',$posts));
+        if (\Session::has('user_id')&&\Session::has('user_role'))
+        {
+                $posts = Posts::get(null,\Session::get('user_id'),null);
+            return view('posts.index', compact('posts',$posts));
+        }
+		return redirect('/');
 	}
-
+    public function status($post_status)
+    {
+        if (\Session::has('user_id')&&\Session::has('user_role')) {
+            $posts = Posts::get($post_status,\Session::get('user_id'),null);
+            return view('posts.index', compact('posts',$posts));
+        }
+        return redirect('/');
+    }
+    public function category($post_category)
+    {
+        if (\Session::has('user_id')&&\Session::has('user_role')) {
+            $posts = Posts::get(null, \Session::get('user_id'), $post_category);
+            return view('posts.index', compact('posts',$posts));
+        }
+        return redirect('/');
+    }
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -33,7 +51,8 @@ class PostsController extends Controller {
 	 */
 	public function create()
 	{
-		return view('posts.create');
+        $categories = Categories::all();
+		return view('posts.create')->with('categories',$categories);
 	}
 
 	/**
@@ -47,34 +66,33 @@ class PostsController extends Controller {
 	public function store(Request $request)
 	{
 	     $this->validate($request, [
-
             'post_title' => 'required|max:256',
-            'post_image' => 'required|max:256',
+            'post_image' => 'required',
             'post_content' => 'required',
             'post_tags' => 'required|max:256',
-            'post_status' => 'required|numeric',
-            'post_created_at' => 'required|date',
-            'post_updated_at' => 'required|date',
+            'post_status' => 'required',
             'post_category' => 'required|max:64',
-            'post_author' => 'required|max:64',
-
 		 ]);
-		 
+        $post_id = date('Ymdhsi');
+        if ($request->file('post_image')->isValid()) {
+            $extension = $request->file('post_image')->extension();
+            $name = $post_id . '.' . $extension;
+            $request->file('post_image')->storeAs('images', $name);
+        }
 		$posts = new Posts();
-
 		$posts->post_title = $request->input('post_title');
-		$posts->post_image = $request->input('post_image');
+		$posts->post_image = $name;
 		$posts->post_content = $request->input('post_content');
 		$posts->post_tags = $request->input('post_tags');
 		$posts->post_status = $request->input('post_status');
-		$posts->post_created_at = $request->input('post_created_at');
-		$posts->post_updated_at = $request->input('post_updated_at');
+		$posts->post_created_at = date('Y-m-d H:i:s');
+		$posts->post_updated_at = date('Y-m-d H:i:s');;
 		$posts->post_category = $request->input('post_category');
-		$posts->post_author = $request->input('post_author');
+		$posts->post_author = \Session::get('user_id');
 
 		$posts->save();
 
-		return redirect()->route('posts.index')->with('message', 'Item created successfully.');
+		return redirect('admin/posts')->with('message', 'Đã thêm bài post thành công');
 	}
 
 	/**
@@ -88,8 +106,8 @@ class PostsController extends Controller {
 	public function show($post_id)
 	{
 		$posts = Posts::findOrFail($post_id);
-
-		return view('posts.show', compact('posts',$posts));
+        $categories = Categories::all();
+		return view('posts.show', compact('posts',$posts))->with('categories',$categories);
 	}
 
 	/**
@@ -103,8 +121,8 @@ class PostsController extends Controller {
 	public function edit($post_id)
 	{
 		$posts = Posts::findOrFail($post_id);
-
-		return view('posts.edit', compact('posts',$posts));
+        $categories = Categories::all();
+		return view('posts.edit', compact('posts',$posts))->with('categories',$categories);
 	}
 
 	/**
@@ -119,20 +137,22 @@ class PostsController extends Controller {
 	public function update(Request $request, $post_id)
 	{
 		$posts = Posts::findOrFail($post_id);
-
 		$posts->post_title = $request->input('post_title');
-		$posts->post_image = $request->input('post_image');
+        $post_id = date('Ymdhsi');
+        if ($request->hasFile('post_image')&&$request->file('post_image')->isValid()) {
+            $extension = $request->file('post_image')->extension();
+            $name = $post_id . '.' . $extension;
+            $request->file('post_image')->storeAs('images', $name);
+            $posts->post_image = $name;
+        }
 		$posts->post_content = $request->input('post_content');
 		$posts->post_tags = $request->input('post_tags');
 		$posts->post_status = $request->input('post_status');
-		$posts->post_created_at = $request->input('post_created_at');
-		$posts->post_updated_at = $request->input('post_updated_at');
+		$posts->post_updated_at = date('Y-m-d H:i:s');
 		$posts->post_category = $request->input('post_category');
-		$posts->post_author = $request->input('post_author');
-
 		$posts->save();
 
-		return redirect()->route('posts.index')->with('message', 'Item updated successfully.');
+		return redirect('admin/posts')->with('message', 'Đã chỉnh sửa thành công');
 	}
 
 	/**

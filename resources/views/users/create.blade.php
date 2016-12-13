@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<div class="container">
+<div class="col-sm-12">
 <h2>Create <span class='muted'>Users</span></h2>
 <hr>
 

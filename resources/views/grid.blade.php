@@ -1,4 +1,4 @@
-@extends('layouts.dashboard')
+@extends('layouts.app')
 @section('page_heading','Grid System')
 @section('section')
 <div class="col-sm-12">

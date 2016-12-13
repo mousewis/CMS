@@ -1,11 +1,8 @@
-@extends('layouts.app')
+@extends((session('user_id')&&(session('user_role')=='admin'))?'layouts.app':'layouts.blog')
 @section('content')
-<div class="container">
-<h2>Create <span class='muted'>Posts</span></h2>
+<div class="col-sm-12">
+<h2>Thêm <span class='muted'>bài đăng</span></h2>
 <hr>
-
 @include('posts._form', ['action'=> 'store'])
-
-<p><a href="{{url('posts')}}">Back</a></p>
 </div>
 @endsection
