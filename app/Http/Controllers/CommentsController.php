@@ -19,11 +19,16 @@ class CommentsController extends Controller {
 	 */
 	public function index()
 	{
-		$comments = Comments::all();
+        $comments = Comments::get();
 
 		return view('comments.index', compact('comments',$comments));
 	}
+    public function status($comm_status)
+    {
+        $comments = Comments::get($comm_status);
 
+        return view('comments.index', compact('comments',$comments));
+    }
 	/**
 	 * Show the form for creating a new resource.
 	 *
@@ -105,7 +110,7 @@ class CommentsController extends Controller {
 	public function update(Request $request, $comm_id)
 	{
 		$comments = Comments::findOrFail($comm_id);
-        $comments->comm_status = '1';
+        $comments->comm_status = $request->input('comm_status');
 		$comments->save();
 
 		return redirect()->route('comments.index')->with('message', 'Item updated successfully.');

@@ -87,7 +87,7 @@
                     </div>
                     <?php if (isset($post)): ?>
                     <?php foreach ($post as $p): ?>
-                    <a href="{{url('admin/post/edit/'.$p->post_id)}}">
+                    <a href="{{url('admin/posts/edit/'.$p->post_id)}}">
                         <div class="panel-footer">
                                                 <span class="pull-left">
                                                     <b><?= $p->post_title ?></b>
@@ -100,7 +100,7 @@
                     </a>
                     <?php endforeach; ?>
                     <?php endif; ?>
-                    <a href="{{url('admin/post')}}">
+                    <a href="{{url('admin/posts')}}">
                         <div class="panel-footer">
                                                 <span class="pull-left">
                                                     Xem nhiều hơn</span>
@@ -123,13 +123,13 @@
                     </div>
                     <?php if (isset($comment)): ?>
                     <?php foreach ($comment as $comm): ?>
-                    <a href="{{url('admin/comment/detail/'.$comm->comm_id)}}">
+                    <a href="{{url('admin/comments/show/'.$comm->comm_id)}}">
                         <b><?= $comm->comm_post ?></b>|
                         <?= substr($comm->comm_content, 0, 160)?>...
                     </a>
                     <?php endforeach; ?>
                     <?php endif; ?>
-                    <a href="{{url('admin/post')}}">
+                    <a href="{{url('admin/comments')}}">
                         <div class="panel-footer">
                                                 <span class="pull-left">
                                                     Xem nhiều hơn</span>

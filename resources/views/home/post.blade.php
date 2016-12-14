@@ -1,7 +1,17 @@
 @extends('layouts.blog')
 @section('content')
+
     <?php if (isset($post)): ?>
 <div class="col-md-8 about-left">
+    @if (count($errors) > 0)
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
     @if (session('message'))
         <div class="alert alert-success">
             {{ session('message') }}
@@ -24,6 +34,10 @@
     <div class="media">
         <div class="media-body">
             <h4 class="media-heading">	<?= $item->comm_name ?></h4>
+            <ul class="blog-ic">
+                <li><span><i class="fa fa-mail-forward"></i><?= $item->comm_email ?> </span></li>
+                <li><span><i class="fa fa-clock-o"></i><?= $item->comm_created_at ?> </span></li>
+            </ul>
             <p><?= $item->comm_content?></p>
         </div>
     </div>

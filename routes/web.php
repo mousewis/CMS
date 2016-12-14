@@ -13,6 +13,7 @@
 //home
 Route::get('/','HomeController@home');
 Route::get('home','HomeController@home');
+Route::get('home/about','HomeController@about');
 Route::post('home/comments/store','CommentsController@store');
 Route::get('home/search','HomeController@search');
 Route::get('home/posts/category/{cate_id}','HomeController@category');
@@ -55,6 +56,7 @@ Route::get('admin/categories/delete/{cate_id}', 'CategoriesController@destroy');
 
 // Comments Routes
 Route::get('admin/comments', 'CommentsController@index')->name('comments.index');
+Route::get('admin/comments/status/{comm_status}', 'CommentsController@status');
 Route::get('admin/comments/create', 'CommentsController@create')->name('comments.create');
 Route::post('admin/comments/store', 'CommentsController@store');
 Route::get('admin/comments/show/{comm_id}', 'CommentsController@show');

@@ -95,7 +95,6 @@ textarea::-webkit-input-placeholder,
 textarea.form-control::-webkit-input-placeholder {
     color: #888;
 }
-
 button.btn {
     height: 50px;
     margin: 0;

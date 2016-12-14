@@ -11,7 +11,7 @@
                     <a href="<?= url('home/posts/show/' . $item->post_id) ?>">
                         <img src="<?= url('images/' . $item->post_image) ?>" alt="" style="width: 100%;height: 200px"/></a>
                     <h6><?= $item->cate_name?></h6>
-                    <h3><a href="single.html"><?= $item->post_title ?></a></h3>
+                    <h3><a href="<?= url('home/posts/show/' . $item->post_id) ?>"><?= $item->post_title ?></a></h3>
                     <p><?= substr(strip_tags(str_replace('<', ' <', $item->post_content)), 0, 160)?></p>
                     <label><?= $item->post_created_at?></label>
                 </div>
