@@ -14,12 +14,48 @@
 <table class="table table-striped">
 	<thead>
 		<tr>
-			<th>Tựa đề</th>
-			<th>Trạng thái</th>
-			<th>Thời gian tạo</th>
-			<th>Cập nhật lần cuối</th>
-			<th>Chuyên mục</th>
-			<th>Tác giả</th>
+			<th>Tựa đề
+				<span>
+					<a href="?order=post_title&type=asc"><i class="fa fa-sort-asc"></i> </a>
+					<a href="?order=post_title"><i class="fa fa-sort-desc"></i> </a>
+			</span>
+			</th>
+			<th>Trạng thái
+				<span>
+					<a href="?order=post_status&type=asc"><i class="fa fa-sort-asc"></i> </a>
+					<a href="?order=post_status"><i class="fa fa-sort-desc"></i> </a>
+			</span>
+			</th>
+			<th>Thời gian tạo
+				<span>
+					<a href="?order=post_created_at&type=asc"><i class="fa fa-sort-asc"></i> </a>
+					<a href="?order=post_created_at"><i class="fa fa-sort-desc"></i> </a>
+			</span>
+			</th>
+			<th>Cập nhật lần cuối
+				<span>
+					<a href="?order=post_updated_at&type=asc"><i class="fa fa-sort-asc"></i> </a>
+					<a href="?order=post_updated_at"><i class="fa fa-sort-desc"></i> </a>
+			</span>
+			</th>
+			<th>Chuyên mục
+				<span>
+					<a href="?order=post_category&type=asc"><i class="fa fa-sort-asc"></i> </a>
+					<a href="?order=post_category"><i class="fa fa-sort-desc"></i> </a>
+			</span>
+			</th>
+			<th>Tác giả
+				<span>
+					<a href="?order=post_author&type=asc"><i class="fa fa-sort-asc"></i> </a>
+					<a href="?order=post_author"><i class="fa fa-sort-desc"></i> </a>
+			</span>
+			</th>
+			<th>Lượt xem
+				<span>
+					<a href="?order=post_view&type=asc"><i class="fa fa-sort-asc"></i> </a>
+					<a href="?order=post_view"><i class="fa fa-sort-desc"></i> </a>
+			</span>
+			</th>
 			<th width="20%">&nbsp;</th>
 		</tr>
 	</thead>
@@ -39,6 +75,7 @@
 			<td><?= $item->post_updated_at ?></td>
 			<td><?= $item->cate_name ?></td>
 			<td><?= $item->post_author ?></td>
+			<td><?= $item->post_view ?></td>
 			<td>
 				<div class="btn-toolbar">
 					<div class="btn-group">

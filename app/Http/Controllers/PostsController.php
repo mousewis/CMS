@@ -17,27 +17,27 @@ class PostsController extends Controller {
 	 *
 	 * Route::get('posts', 'PostsController@index')->name('posts.index');
 	 */
-	public function index()
+	public function index(Request $request)
 	{
         if (\Session::has('user_id')&&\Session::has('user_role'))
         {
-                $posts = Posts::get(null,\Session::get('user_id'),null);
+                $posts = Posts::get(null,\Session::get('user_id'),null,'',$request->input('order'),$request->input('type'));
             return view('posts.index', compact('posts',$posts));
         }
 		return redirect('/');
 	}
-    public function status($post_status)
+    public function status(Request $request,$post_status)
     {
         if (\Session::has('user_id')&&\Session::has('user_role')) {
-            $posts = Posts::get($post_status,\Session::get('user_id'),null);
+            $posts = Posts::get($post_status,\Session::get('user_id'),null,'',$request->input('order'),$request->input('type'));
             return view('posts.index', compact('posts',$posts));
         }
         return redirect('/');
     }
-    public function category($post_category)
+    public function category(Request $request,$post_category)
     {
         if (\Session::has('user_id')&&\Session::has('user_role')) {
-            $posts = Posts::get(null, \Session::get('user_id'), $post_category);
+            $posts = Posts::get(null, \Session::get('user_id'), $post_category,'',$request->input('order'),$request->input('type'));
             return view('posts.index', compact('posts',$posts));
         }
         return redirect('/');

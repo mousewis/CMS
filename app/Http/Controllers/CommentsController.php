@@ -113,7 +113,7 @@ class CommentsController extends Controller {
         $comments->comm_status = $request->input('comm_status');
 		$comments->save();
 
-		return redirect()->route('comments.index')->with('message', 'Item updated successfully.');
+		return redirect()->route('comments.index')->with('message', 'Đã cập nhật thành công.');
 	}
 
 	/**

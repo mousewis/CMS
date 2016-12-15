@@ -30,15 +30,15 @@ class Options extends Model {
     {
         if ($opt_blog_name!=null)
             \DB::table('options')->where('opt_name','=','opt_blog_name')
-            ->update(['opt_detail'=>$opt_blog_name]);
+            ->update(['opt_updated_at'=>date('Y-m-d H:i:s'),'opt_detail'=>$opt_blog_name]);
         if ($opt_blog_intro!=null)
             \DB::table('options')->where('opt_name','=','opt_blog_intro')
-            ->update(['opt_detail'=>$opt_blog_intro]);
+            ->update(['opt_updated_at'=>date('Y-m-d H:i:s'),'opt_detail'=>$opt_blog_intro]);
         if ($opt_blog_logo!=null)
             \DB::table('options')->where('opt_name','=','opt_blog_logo')
-            ->update(['opt_detail'=>$opt_blog_logo]);
+            ->update(['opt_updated_at'=>date('Y-m-d H:i:s'),'opt_detail'=>$opt_blog_logo]);
         if ($opt_blog_avatar!=null)
             \DB::table('options')->where('opt_name','=','opt_blog_avatar')
-            ->update(['opt_detail'=>$opt_blog_avatar]);
+            ->update(['opt_updated_at'=>date('Y-m-d H:i:s'),'opt_detail'=>$opt_blog_avatar]);
     }
 }

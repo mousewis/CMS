@@ -69,6 +69,7 @@ class HomeController extends Controller {
     {
         if (Users::check_start()==false)
             return redirect('setup');
+        Posts::increase_count($post_id);
         $categories = Categories::all();
         $top_posts = Posts::top(5);
         $post = Posts::findOrFail($post_id);
