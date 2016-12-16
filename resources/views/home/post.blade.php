@@ -26,6 +26,9 @@
         <li><span><i class="glyphicon glyphicon-eye-open"> </i>Lượt xem:<?= $post->post_view ?></span></li>
     </ul>
 <?=$post->post_content ?>
+    <ul class="blog-ic">
+        <li><span>#<?=str_replace(',',' #',$post->post_tags) ?></span></li>
+    </ul>
 </div>
 <div class="comments heading">
     <h3>Bình luận</h3>

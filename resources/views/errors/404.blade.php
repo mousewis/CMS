@@ -9,7 +9,6 @@
 				color: #B0BEC5;
 				display: table;
 				font-weight: 100;
-				font-family: 'Lato';
 			}
 
 			.container {
@@ -27,12 +26,23 @@
 				font-size: 72px;
 				margin-bottom: 40px;
 			}
+			a:link {
+				font-size: 36px;
+				margin-bottom: 60px;
+				text-decoration: none;
+				color: #B0BEC5;
+			}
+			a:visited
+			{
+				color: #B0BEC5;
+			}
 		</style>
 	</head>
 	<body>
 		<div class="container">
 			<div class="content">
-				<div class="title">Be right back.</div>
+				<div class="title">KHÔNG TÌM THẤY TRANG</div>
+				<p><a href="{{url('/')}}">Trở về trang chủ</a> </p>
 			</div>
 		</div>
 	</body>

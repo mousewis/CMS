@@ -29,6 +29,7 @@ Route::get('admin','AdminController@home');
 Route::get('admin/noti/comments','AdminController@comment');
 Route::get('admin/options','AdminController@options');
 Route::post('admin/_options','AdminController@_options');
+//Route::get('admin/media','AdminController@media');
 Route::get('images/{filename}', function ($filename)
 {
     return Storage::get('images/'.$filename);
@@ -60,7 +61,7 @@ Route::get('admin/comments/status/{comm_status}', 'CommentsController@status');
 Route::get('admin/comments/create', 'CommentsController@create')->name('comments.create');
 Route::post('admin/comments/store', 'CommentsController@store');
 Route::get('admin/comments/show/{comm_id}', 'CommentsController@show');
-Route::get('admin/comments/edit/{comm_id}', 'CommentsController@edit');
+//Route::get('admin/comments/edit/{comm_id}', 'CommentsController@edit');
 Route::put('admin/comments/update/{comm_id}', 'CommentsController@update');
 Route::get('admin/comments/delete/{comm_id}', 'CommentsController@destroy');
 
